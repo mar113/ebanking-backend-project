@@ -1,5 +1,6 @@
 package com.mat.ebankingbackend.services;
 
+import com.mat.ebankingbackend.dtos.CurrentBankAccountDTO;
 import com.mat.ebankingbackend.dtos.CustomerDTO;
 import com.mat.ebankingbackend.dtos.SavingBankAccountDTO;
 import com.mat.ebankingbackend.entities.*;
@@ -43,7 +44,7 @@ public class BankAccountServiceImpl implements  BankAccountService{
     }
 
     @Override
-    public CurrentAccount createCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException {
+    public CurrentBankAccountDTO createCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException {
         Optional<Customer> customer = customerRepository.findById(customerId);
         if(customer.isEmpty()){
             throw new CustomerNotFoundException("Customer with id "+customerId+" not found");
@@ -57,7 +58,8 @@ public class BankAccountServiceImpl implements  BankAccountService{
         bankAccount.setOverDraft(overDraft);
         bankAccount.setStatus(AccountStatus.CREATED);
 
-        return bankAccountRepository.save(bankAccount);
+        CurrentAccount savedbankAccount = bankAccountRepository.save(bankAccount);
+        return mapper.fromCurrentBankAccount(savedbankAccount);
     }
     @Override
     public SavingBankAccountDTO createSavingBankAccount(double initialBalance, double interestRate, Long customerId) throws CustomerNotFoundException {

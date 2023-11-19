@@ -1,5 +1,6 @@
 package com.mat.ebankingbackend.services;
 
+import com.mat.ebankingbackend.dtos.CurrentBankAccountDTO;
 import com.mat.ebankingbackend.dtos.CustomerDTO;
 import com.mat.ebankingbackend.dtos.SavingBankAccountDTO;
 import com.mat.ebankingbackend.entities.BankAccount;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface BankAccountService {
 
     public CustomerDTO saveCustomer(CustomerDTO customer);
-    public CurrentAccount createCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException;
+    public CurrentBankAccountDTO createCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException;
     public SavingBankAccountDTO createSavingBankAccount(double initialBalance, double interestRate, Long customerId) throws CustomerNotFoundException;
 
     public List<CustomerDTO> getCustomerList();
